@@ -19,6 +19,7 @@
             DueDate = new DateTime(timeNow.Year, timeNow.Month, timeNow.Day, timeNow.Hour, timeNow.Minute, 0);
             //Status ska alltid vara satt till 0, dvs inte avklarad när ny todo läggs till
             Status = 0;
+            Category = "";
         }
 
     }

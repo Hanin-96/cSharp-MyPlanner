@@ -6,6 +6,7 @@ namespace MyPlanner.Components.Pages
 {
     public partial class Home : ComponentBase
     {
+        //Todo lista med alla objekt
         public List<Todo>? ReadTodoList { get; set; }
         //Visa formulär på sidan
         public bool ShowCreate { get; set; }
@@ -13,6 +14,7 @@ namespace MyPlanner.Components.Pages
         protected override async Task OnInitializedAsync()
         {
             ShowCreate = false;
+            await ShowTodoList();
         }
 
         private TodoDataContext? _context;
@@ -24,6 +26,12 @@ namespace MyPlanner.Components.Pages
         {
             NewTodo = new Todo();
             ShowCreate = true;
+        }
+
+        //Metod- Ångra skapa en ny todo
+        public void CancelForm()
+        {
+            ShowCreate = false;
         }
 
         public async Task CreateNewTodo()

@@ -59,6 +59,7 @@
         <div class="offset-4 col-8">
             <!--On-click på lägg till knapp, för att kalla på method-->
             <button name="submit" type="submit" class="btn btn-primary" @onclick="CreateNewTodo">Lägg till</button>
+            <button name="cancel" type="button" class="btn btn-secondary" @onclick="CancelForm">Ångra</button>
         </div>
     </div>
 }
@@ -70,6 +71,39 @@ else
         </div>
     </div>
 
-    <p>To do lista</p>
+
+    <p>Todo Lista</p>
+
+    @if (@ReadTodoList is not null && ReadTodoList.Count > 0)
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-bordered table-light border-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">Titel</th>
+                        <th scope="col">Beskrivning</th>
+                        <th scope="col">Kategori</th>
+                        <th scope="col">Prioritet</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Ändra</th>
+                        <th scope="col">Radera</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var todo in @ReadTodoList)
+                    {
+                        <tr>
+                            <td>@todo.Title</td>
+                            <td>@todo.Description</td>
+                            <td>@todo.Category</td>
+                            <td>@todo.Priority</td>
+                            <td>@todo.Status</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
 }
+
 
