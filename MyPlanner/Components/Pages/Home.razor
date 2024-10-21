@@ -1,0 +1,75 @@
+﻿@page "/"
+@using Microsoft.EntityFrameworkCore
+@using MyPlanner.Data
+
+<PageTitle>To Do List</PageTitle>
+@inject IDbContextFactory<TodoDataContext> TodoDataContextFactory;
+
+@if (@ShowCreate)
+{
+    <h3>Lägg till ny to do</h3>
+    <div class="row">
+        <label for="Title" class="col-4 col-form-label">Titel</label>
+        <div class="col-8">
+            <!--Binder ihop input med objektet som skapas-->
+            <input id="Title" name="Title" type="text" class="form-control" @bind="@NewTodo.Title">
+        </div>
+    </div>
+
+    <div class="row">
+        <label for="Description" class="col-4 col-form-label">Beskrivning</label>
+        <div class="col-8">
+            <input id="Description" name="Description" type="text" class="form-control" @bind="@NewTodo.Description">
+        </div>
+    </div>
+
+    <div class="row">
+        <label for="Category" class="col-4 col-form-label">Kategori</label>
+        <div class="col-8">
+            <select @bind="@NewTodo.Category">
+                <option value="Arbete">Arbete</option>
+                <option value="Hem">Hem</option>
+                <option value="Hobby">Hobby</option>
+                <option value="Personlig">Personlig</option>
+                <option value="Studier">Studier</option>
+                <option value="Annat">Annat</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <label for="Priority" class="col-4 col-form-label">Prioritet 1-3</label>
+        <div class="col-8">
+            <select @bind="@NewTodo.Priority">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row">
+        <label for="DueDate" class="col-4 col-form-label">Deadline</label>
+        <div class="col-8">
+            <input id="DueDate" name="DueDate" type="datetime-local" class="form-control" @bind="@NewTodo.DueDate">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="offset-4 col-8">
+            <!--On-click på lägg till knapp, för att kalla på method-->
+            <button name="submit" type="submit" class="btn btn-primary" @onclick="CreateNewTodo">Lägg till</button>
+        </div>
+    </div>
+}
+else
+{
+    <div class="form-group row">
+        <div class="offset-4 col-8">
+            <button name="submit" type="submit" class="btn btn-primary" @onclick="ShowCreateForm">Lägg till ny To do</button>
+        </div>
+    </div>
+
+    <p>To do lista</p>
+}
+
