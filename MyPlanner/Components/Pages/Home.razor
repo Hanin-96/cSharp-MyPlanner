@@ -71,82 +71,68 @@ else
         </div>
     </div>
 
-
-    <p>Todo Lista</p>
-
     @if (@ReadTodoList is not null && ReadTodoList.Count > 0)
     {
         <div class="table-responsive">
-            <table class="table table-striped table-hover table-bordered table-light border-dark">
-                <thead>
-                    <tr>
-                        <th scope="col">Titel</th>
-                        <th scope="col">Beskrivning</th>
-                        <th scope="col">Kategori</th>
-                        <th scope="col">Prioritet</th>
-                        <th scope="col">Ändra</th>
-                        <th scope="col">Radera</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var todo in @ReadTodoList)
-                        @if (!EditRecord)
-                        {
 
 
-                            {
-                                <tr>
-                                    <td>@todo.Title</td>
-                                    <td>@todo.Description</td>
-                                    <td>@todo.Category</td>
-                                    <td>@todo.Priority</td>
-                                    <td><button name="button" type="button" class="btn btn-primary" @onclick="() => ShowEditTodoForm(todo)">Ändra</button></td>
-                                    <td></td>
-                                </tr>
-                            }
-                        }
-                        else
-                        {
-                            if (@TodoToUpdate is not null && @TodoToUpdate.Id == @todo.Id)
-                            {
-                                <tr>
-                                    <td><input id="Title" name="Title" type="text" class="form-control" @bind="@TodoToUpdate.Title" /></td>
-                                    <td><input id="Description" name="Description" type="text" class="form-control" @bind="@TodoToUpdate.Description" /></td>
-                                    <td>
-                                        <select @bind="@TodoToUpdate.Category">
-                                            <option value="Arbete">Arbete</option>
-                                            <option value="Hem">Hem</option>
-                                            <option value="Hobby">Hobby</option>
-                                            <option value="Personlig">Personlig</option>
-                                            <option value="Studier">Studier</option>
-                                            <option value="Annat">Annat</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select @bind="@TodoToUpdate.Priority">
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                        </select>
-                                    </td>
-                                    <td> <button name="button" type="button" class="btn btn-primary" @onclick="@TodoUpdate">Spara</button></td>
-                                    <td>
-                                    <td><button name="button" type="button" class="btn btn-secondary" @onclick="CloseEditForm">Ångra</button></td></td>
-                                </tr>
-                            }
-                            else
-                            {
-                                <tr>
-                                    <td>@todo.Title</td>
-                                    <td>@todo.Description</td>
-                                    <td>@todo.Category</td>
-                                    <td>@todo.Priority</td>
-                                    <td> <button name="button" type="button" class="btn btn-primary" @onclick="() => ShowEditTodoForm(todo)">Ändra</button></td>
-                                </tr>
-                            }
-                        }
-                </tbody>
-            </table>
+            @foreach (var todo in @ReadTodoList)
+                @if (!EditRecord)
+                {
+
+
+
+                    <article class="todo-article">
+                        <h2>@todo.Title</h2>
+                        <p>@todo.Description</p>
+                        <p>@todo.Category</p>
+                        <p>@todo.Priority</p>
+                        <button name="button" type="button" class="btn btn-primary" @onclick="() => ShowEditTodoForm(todo)">Ändra</button>
+                    </article>
+
+
+
+                }
+                else
+                {
+                    if (@TodoToUpdate is not null && @TodoToUpdate.Id == @todo.Id)
+                    {
+
+                        <h2><input id="Title" name="Title" type="text" class="form-control" @bind="@TodoToUpdate.Title" /></h2>
+                        <p><input id="Description" name="Description" type="text" class="form-control" @bind="@TodoToUpdate.Description" /></p>
+                        <p>
+                            <select @bind="@TodoToUpdate.Category">
+                                <option value="Arbete">Arbete</option>
+                                <option value="Hem">Hem</option>
+                                <option value="Hobby">Hobby</option>
+                                <option value="Personlig">Personlig</option>
+                                <option value="Studier">Studier</option>
+                                <option value="Annat">Annat</option>
+                            </select>
+                        </p>
+                        <p>
+                            <select @bind="@TodoToUpdate.Priority">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </p>
+                        <button name="button" type="button" class="btn btn-primary" @onclick="@TodoUpdate">Spara</button>
+
+                        <button name="button" type="button" class="btn btn-secondary" @onclick="CloseEditForm">Ångra</button>
+
+                    }
+                    else
+                    {
+
+                        <h2>@todo.Title</h2>
+                        <p>@todo.Description</p>
+                        <p>@todo.Category</p>
+                        <p>@todo.Priority</p>
+                        <button name="button" type="button" class="btn btn-primary" @onclick="() => ShowEditTodoForm(todo)">Ändra</button>
+
+                    }
+                }
         </div>
     }
 

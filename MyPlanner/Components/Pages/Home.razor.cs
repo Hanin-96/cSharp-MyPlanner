@@ -79,6 +79,7 @@ namespace MyPlanner.Components.Pages
             EditRecord = true;
         }
 
+        //Stänga edit mode
         public async Task CloseEditForm()
         {
             EditRecord = false;
