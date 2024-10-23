@@ -8,7 +8,7 @@
     text-align: center;
     padding: 1rem;
     color: mediumvioletred;
-    font-weight: bold;      
+    font-weight: bold;
 }
 
 /*Form css styling*/
@@ -23,6 +23,7 @@ label, input, select {
     margin: 2rem 0 2rem 0;
     border-radius: 20px;
     border: 2px solid mediumvioletred;
+    width: 100%
 }
 
 .todo-form-wrapper {
@@ -32,6 +33,26 @@ label, input, select {
     border-radius: 20px;
     border: 2px solid mediumvioletred;
 }
+
+.article-container {
+    display: flex;
+    width: 100%;
+}
+
+.priority-number-notis {
+    display: inline;
+    padding: 0.5rem 1rem;
+    background-color: mediumvioletred;
+    margin-right: 1rem;
+    height: min-content;
+    border-radius: 2rem;
+    width: min-content;
+    position: relative;
+    top: 2rem;
+    font-size: 20px;
+    color: white;
+    font-weight: bold;
+}
 /*btn styling*/
 .btn-primary {
     color: #FFFFFF;
@@ -39,7 +60,8 @@ label, input, select {
     border: none;
     width: 100%;
     max-width: 100%;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
+    padding: 0.8rem;
 }
 
     .btn-primary:hover {
@@ -57,7 +79,8 @@ label, input, select {
     background-color: grey;
     border: none;
     max-width: 100%;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
+    padding: 0.8rem;
 }
 
 .btn-form {
@@ -72,4 +95,10 @@ label, input, select {
     background-color: mediumvioletred;
     padding: 1rem;
     font-size: 24px;
+}
+
+/*btn styling för ändra och radera knapp*/
+.btn-todo-post-wrap {
+    display: flex;
+    gap: 1.5rem;
 }

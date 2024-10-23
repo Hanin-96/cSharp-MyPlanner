@@ -45,7 +45,7 @@ namespace MyPlanner.Components.Pages
             ShowCreate = false;
         }
 
-        //Skapa ny todo
+        //Metod - Skapa ny todo
         public async Task CreateNewTodo()
         {
             _context ??= await TodoDataContextFactory.CreateDbContextAsync();
@@ -98,6 +98,20 @@ namespace MyPlanner.Components.Pages
                 await _context.DisposeAsync();
             }
         }
+
+        //Metod - Radera todo post
+        public async Task DeleteTodoPost(Todo readTodoList)
+        {
+            _context ??= await TodoDataContextFactory.CreateDbContextAsync();
+            if (_context is not null && readTodoList is not null)
+            {
+                _context.Todos.Remove(readTodoList);
+                await _context.SaveChangesAsync();
+            }
+            await ShowTodoList();
+        }
+
+
     }
 }
 

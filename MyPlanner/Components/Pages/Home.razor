@@ -81,20 +81,19 @@ else
             @foreach (var todo in @ReadTodoList)
                 @if (!EditRecord)
                 {
-
-
-
-                    <article class="todo-article">
-                        <h2>@todo.Title</h2>
-                        <p>@todo.Description</p>
-                        <p>@todo.Category</p>
-                        <p>@todo.Priority</p>
-                        <p>@todo.DueDate</p>
-                        <button name="button" type="button" class="btn btn-primary" @onclick="() => ShowEditTodoForm(todo)">Ändra</button>
-                    </article>
-
-
-
+                    <div class="article-container">
+                        <p class="priority-number-notis">@todo.Priority</p>
+                        <article class="todo-article">
+                            <h2>@todo.Title</h2>
+                            <p>@todo.Description</p>
+                            <p>@todo.Category</p>
+                            <p>@todo.DueDate</p>
+                            <div class="btn-todo-post-wrap">
+                                <button name="button" type="button" class="btn btn-primary" @onclick="() => ShowEditTodoForm(todo)">Ändra</button>
+                                <button name="button" type="button" class="btn btn-secondary" @onclick="() => DeleteTodoPost(todo)">Radera</button>
+                            </div>
+                        </article>
+                    </div>
                 }
                 else
                 {
@@ -124,9 +123,11 @@ else
                             <p>
                                 <input id="DueDate" name="DueDate" type="datetime-local" class="form-control" @bind="@TodoToUpdate.DueDate">
                             </p>
-                            <button name="button" type="button" class="btn btn-primary" @onclick="@TodoUpdate">Spara</button>
 
-                            <button name="button" type="button" class="btn btn-secondary" @onclick="CloseEditForm">Ångra</button>
+                            <div class="btn-todo-post-wrap">
+                                <button name="button" type="button" class="btn btn-primary" @onclick="@TodoUpdate">Spara</button>
+                                <button name="button" type="button" class="btn btn-secondary" @onclick="CloseEditForm">Ångra</button>
+                            </div>
                         </article>
 
                     }
@@ -138,7 +139,10 @@ else
                             <p>@todo.Category</p>
                             <p>@todo.Priority</p>
                             <p>@todo.DueDate</p>
-                            <button name="button" type="button" class="btn btn-primary" @onclick="() => ShowEditTodoForm(todo)">Ändra</button>
+                            <div class="btn-todo-post-wrap">
+                                <button name="button" type="button" class="btn btn-primary" @onclick="() => ShowEditTodoForm(todo)">Ändra</button>
+                                <button name="button" type="button" class="btn btn-secondary" @onclick="() => DeleteTodoPost(todo)">Radera</button>
+                            </div>
                         </article>
 
                     }
