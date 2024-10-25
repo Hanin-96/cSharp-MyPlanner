@@ -17,7 +17,7 @@ namespace MyPlanner.Data
         {
             optionsBuilder.UseSqlite(Configuration.GetConnectionString("TodoDB"));
         }
-        public DbSet<Todo> Todos { get; set; } // Change TodoList to TodoItem
+        public DbSet<Todo> Todos { get; set; } 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,6 +26,7 @@ namespace MyPlanner.Data
 
             modelBuilder.Entity<Todo>()
                 .HasData(
+                //Testdata till databasen
                     new Todo
                     {
                         Id = 1,

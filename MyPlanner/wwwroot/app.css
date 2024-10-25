@@ -1,11 +1,18 @@
-html, body {
+html, body{
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    height: 100vh;
+}
+
+main > div {
+        min-height: 95.8vh;
 }
 
 body {
-    max-width: 1000px;
     width: 100%;
-    background-color: lightgrey;
+    background-image: url(img/bg/bg_dots.png);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: "Roboto", sans-serif;
 }
 
 a, .btn-link {
@@ -55,4 +62,3 @@ h1:focus {
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
 }
-

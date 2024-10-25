@@ -9,6 +9,7 @@ namespace MyPlanner.Components.Pages
         //Todo lista med alla objekt
         public List<Todo>? ReadTodoList { get; set; }
 
+        //Ny todo post
         public Todo? NewTodo { get; set; }
 
         //Visa formulär på sidan
@@ -23,14 +24,14 @@ namespace MyPlanner.Components.Pages
         // EditingId
         public int EditingId { get; set; }
 
+        //Från klassen TodoDataContext, referens till databasanslutning
+        private TodoDataContext? dataContext;
+
         protected override async Task OnInitializedAsync()
         {
             ShowCreate = false;
             await ShowTodoList();
         }
-
-        private TodoDataContext? _context;
-
 
         //Visa formulär
         public void ShowCreateForm()
@@ -48,12 +49,13 @@ namespace MyPlanner.Components.Pages
         //Metod - Skapa ny todo
         public async Task CreateNewTodo()
         {
-            _context ??= await TodoDataContextFactory.CreateDbContextAsync();
+            dataContext ??= await TodoDataContextFactory.CreateDbContextAsync();
 
             if (NewTodo is not null)
             {
-                _context?.Todos.Add(NewTodo);
-                await _context?.SaveChangesAsync();
+                dataContext?.Todos.Add(NewTodo);
+                await dataContext?.SaveChangesAsync();
+                ReadTodoList = await dataContext.Todos.OrderBy(todo => todo.Priority).ToListAsync();
             }
             ShowCreate = false;
         }
@@ -61,11 +63,12 @@ namespace MyPlanner.Components.Pages
         //extrahera och visa todo lista
         public async Task ShowTodoList()
         {
-            _context ??= await TodoDataContextFactory.CreateDbContextAsync();
+            dataContext ??= await TodoDataContextFactory.CreateDbContextAsync();
 
-            if (_context is not null)
+            if (dataContext is not null)
             {
-                ReadTodoList = await _context.Todos.ToListAsync();
+                // Sortera efter prioritet och skriv ut todo posts
+                ReadTodoList = await dataContext.Todos.OrderBy(todo => todo.Priority).ToListAsync();
             }
 
         }
@@ -73,8 +76,8 @@ namespace MyPlanner.Components.Pages
         //Metod - Sätta id på existerande todo
         public async Task ShowEditTodoForm(Todo readTodoList)
         {
-            _context ??= await TodoDataContextFactory.CreateDbContextAsync();
-            TodoToUpdate = _context.Todos.FirstOrDefault(x => x.Id == readTodoList.Id);
+            dataContext ??= await TodoDataContextFactory.CreateDbContextAsync();
+            TodoToUpdate = dataContext.Todos.FirstOrDefault(x => x.Id == readTodoList.Id);
             EditingId = readTodoList.Id;
             EditRecord = true;
         }
@@ -89,24 +92,26 @@ namespace MyPlanner.Components.Pages
         public async Task TodoUpdate()
         {
             EditRecord = false;
-            _context ??= await TodoDataContextFactory.CreateDbContextAsync();
+            dataContext ??= await TodoDataContextFactory.CreateDbContextAsync();
 
-            if (_context is not null)
+            if (dataContext is not null && TodoToUpdate is not null)
             {
-                if (TodoToUpdate is not null) _context.Todos.Update(TodoToUpdate);
-                await _context.SaveChangesAsync();
-                await _context.DisposeAsync();
+                dataContext.Todos.Update(TodoToUpdate);
+                await dataContext.SaveChangesAsync();
+
             }
+            ReadTodoList = await dataContext.Todos.OrderBy(todo => todo.Priority).ThenBy(todo => todo.Title).ToListAsync();
+            //await dataContext.DisposeAsync();
         }
 
         //Metod - Radera todo post
         public async Task DeleteTodoPost(Todo readTodoList)
         {
-            _context ??= await TodoDataContextFactory.CreateDbContextAsync();
-            if (_context is not null && readTodoList is not null)
+            dataContext ??= await TodoDataContextFactory.CreateDbContextAsync();
+            if (dataContext is not null && readTodoList is not null)
             {
-                _context.Todos.Remove(readTodoList);
-                await _context.SaveChangesAsync();
+                dataContext.Todos.Remove(readTodoList);
+                await dataContext.SaveChangesAsync();
             }
             await ShowTodoList();
         }

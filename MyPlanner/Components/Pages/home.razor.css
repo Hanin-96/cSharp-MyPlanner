@@ -16,6 +16,9 @@ label, input, select {
     margin-bottom: 2rem;
 }
 
+.form-label {
+    margin-bottom: 0.5rem;
+}
 /*Article för varje todo*/
 .todo-article {
     background-color: #ffffff;
@@ -23,7 +26,8 @@ label, input, select {
     margin: 2rem 0 2rem 0;
     border-radius: 20px;
     border: 2px solid mediumvioletred;
-    width: 100%
+    width: 100%;
+    box-shadow: 0px 2px 2px 0px rgba(30, 30, 30, 0.25);
 }
 
 .todo-form-wrapper {
@@ -32,6 +36,13 @@ label, input, select {
     margin: 2rem 0 2rem 0;
     border-radius: 20px;
     border: 2px solid mediumvioletred;
+}
+
+.allcontent-wrapper {
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 2rem;
 }
 
 .article-container {
@@ -48,7 +59,7 @@ label, input, select {
     border-radius: 2rem;
     width: min-content;
     position: relative;
-    top: 2rem;
+    top: 3rem;
     font-size: 20px;
     color: white;
     font-weight: bold;
@@ -56,32 +67,38 @@ label, input, select {
 /*btn styling*/
 .btn-primary {
     color: #FFFFFF;
-    background-color: mediumvioletred;
+    background-color: #c71585;
     border: none;
     width: 100%;
     max-width: 100%;
     margin-bottom: 1rem;
     padding: 0.8rem;
+    border-radius: 15px;
 }
 
     .btn-primary:hover {
-        background-color: #8B0E5D;
+        background-color: #a4116d;
     }
 
     .btn-primary:focus {
-        background-color: #8B0E5D;
+        background-color: #a4116d;
     }
 
 
 .btn-secondary {
     width: 100%;
     max-width: 25%;
-    background-color: grey;
+    background-color: #949494;
     border: none;
     max-width: 100%;
     margin-bottom: 1rem;
     padding: 0.8rem;
+    border-radius: 15px;
 }
+
+    .btn-secondary:hover {
+        background-color: #808080;
+    }
 
 .btn-form {
     display: flex;
@@ -102,3 +119,5 @@ label, input, select {
     display: flex;
     gap: 1.5rem;
 }
+
+
