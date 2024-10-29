@@ -182,14 +182,8 @@ namespace MyPlanner.Components.Pages
 
         public async Task MarkTodoStatus(Todo todo)
         {
-            dataContext ??= await TodoDataContextFactory.CreateDbContextAsync();
             //Toggla todo post status
-                todo.Status = !todo.Status;
-                dataContext.Todos.Update(todo);
-                await dataContext.SaveChangesAsync();
-                await ShowTodoList();
-
-        
+             todo.Status = !todo.Status;
         }
 
 
