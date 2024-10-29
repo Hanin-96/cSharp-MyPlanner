@@ -119,5 +119,15 @@ label, input, select {
     display: flex;
     gap: 1.5rem;
 }
+/*Media queries*/
+@media (max-width: 640.98px) {
+    .btn-add-form {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        border-radius: 0;
+        margin-bottom: 0;
+    }
+}
 
 

@@ -63,6 +63,12 @@
                     <button name="button" type="button" class="btn btn-primary" @onclick="CreateNewTodo">Lägg till</button>
                     <button name="cancel" type="button" class="btn btn-secondary" @onclick="CancelForm">Ångra</button>
                 </div>
+                @if (@HasError)
+                {
+                    <div class="error-msg">
+                        <p>Alla fält måste vara ifyllda!</p>
+                    </div>
+                }
             </div>
         </section>
     }
@@ -145,6 +151,12 @@
                                     <button name="button" type="button" class="btn btn-primary" @onclick="@TodoUpdate">Spara</button>
                                     <button name="button" type="button" class="btn btn-secondary" @onclick="CloseEditForm">Ångra</button>
                                 </div>
+                                @if (@HasError)
+                                {
+                                    <div class="error-msg">
+                                        <p>Alla fält måste vara ifyllda!</p>
+                                    </div>
+                                }
                             </article>
 
                         }

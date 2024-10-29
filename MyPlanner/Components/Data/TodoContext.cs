@@ -34,7 +34,7 @@ namespace MyPlanner.Data
                         Description = "Fortsätta skapa todolista med Blazor",
                         Category = "Studier",
                         Priority = 1,
-                        Status = 0,
+                        Status = false,
                         DueDate = new DateTime(2024, 10, 18)
                     },
 
@@ -45,7 +45,7 @@ namespace MyPlanner.Data
                         Description = "Skapa prototyp",
                         Category = "Studier",
                         Priority = 2,
-                        Status = 0,
+                        Status = false,
                         DueDate = new DateTime(2024, 10, 20)
                     },
                     new Todo
@@ -55,7 +55,7 @@ namespace MyPlanner.Data
                         Description = "Test",
                         Category = "Personligt",
                         Priority = 2,
-                        Status = 0,
+                        Status = false,
                         DueDate = new DateTime(2024, 10, 20)
                     }
                 );
