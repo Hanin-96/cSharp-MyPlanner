@@ -4,6 +4,7 @@ namespace MyPlanner.Data
 {
     public class TodoDataContext : DbContext
     {
+        public DbSet<Todo> Todos { get; set; }
 
         protected readonly IConfiguration Configuration;
 
@@ -17,7 +18,6 @@ namespace MyPlanner.Data
         {
             optionsBuilder.UseSqlite(Configuration.GetConnectionString("TodoDB"));
         }
-        public DbSet<Todo> Todos { get; set; } 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

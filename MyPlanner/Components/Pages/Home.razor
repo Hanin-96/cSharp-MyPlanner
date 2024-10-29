@@ -103,11 +103,14 @@
                                 <p class="priority-number-notis" style="background-color: green;">@todo.Priority</p>
                             }
 
-                            <article class="todo-article">
+                            <article class="todo-article" style="@((todo.Status ? "color: grey; background-color: #e9e9e9; border: 2px solid grey;": ""))">
                                 <h2>@todo.Title</h2>
                                 <p>@todo.Description</p>
                                 <p>@todo.Category</p>
                                 <p>@todo.DueDate</p>
+
+                                <label style="pointer-events: none;"><input type="checkbox" name="check-todo" class="check-todo" @bind="@todo.Status"></label>
+
                                 <div class="btn-todo-post-wrap">
                                     <button name="button" type="button" class="btn btn-primary" @onclick="() => ShowEditTodoForm(todo)">Ändra</button>
                                     <button name="button" type="button" class="btn btn-secondary" @onclick="() => DeleteTodoPost(todo)">Radera</button>
@@ -146,6 +149,8 @@
                                 <p>
                                     <input id="DueDate" name="DueDate" type="datetime-local" class="form-control" @bind="@TodoToUpdate.DueDate">
                                 </p>
+                                <label class="checkbox-label">Markera som klar</label>
+                                <p><input type="checkbox" name="check-todo" class="check-todo checkbox-form" @onclick="() => MarkTodoStatus(todo)" @bind="@todo.Status" /></p>
 
                                 <div class="btn-todo-post-wrap">
                                     <button name="button" type="button" class="btn btn-primary" @onclick="@TodoUpdate">Spara</button>

@@ -98,7 +98,11 @@ namespace MyPlanner.Components.Pages
             if (dataContext is not null)
             {
                 // Sortera efter prioritet och skriv ut todo posts
-                ReadTodoList = await dataContext.Todos.OrderBy(todo => todo.Priority).ToListAsync();
+                ReadTodoList = await dataContext.Todos
+                   .OrderBy(todo => todo.Priority)
+                   .ThenBy(todo => todo.Title)
+                   .OrderBy(todo => todo.Status)
+                   .ToListAsync();
             }
 
         }
@@ -116,7 +120,8 @@ namespace MyPlanner.Components.Pages
                     Title = todoToUpdate.Title,
                     Description = todoToUpdate.Description,
                     Priority = todoToUpdate.Priority,
-                    Category = todoToUpdate.Category
+                    Category = todoToUpdate.Category,
+                    Status = todoToUpdate.Status
                 };
             }
             EditingId = readTodoList.Id;
@@ -132,6 +137,7 @@ namespace MyPlanner.Components.Pages
                 todoToUpdate.Description = backUpTodo.Description;
                 todoToUpdate.Priority = backUpTodo.Priority;
                 todoToUpdate.Category = backUpTodo.Category;
+                todoToUpdate.Status = backUpTodo.Status;
             }
             EditRecord = false;
         }
@@ -147,7 +153,11 @@ namespace MyPlanner.Components.Pages
             {
                 dataContext.Todos.Update(TodoToUpdate);
                 await dataContext.SaveChangesAsync();
-                ReadTodoList = await dataContext.Todos.OrderBy(todo => todo.Priority).ThenBy(todo => todo.Title).ToListAsync();
+                ReadTodoList = await dataContext.Todos
+                    .OrderBy(todo => todo.Priority)
+                    .ThenBy(todo => todo.Title)
+                    .OrderBy(todo => todo.Status)
+                    .ToListAsync();
                 //await dataContext.DisposeAsync();
                 EditRecord = false;
             }
@@ -168,6 +178,18 @@ namespace MyPlanner.Components.Pages
                 await dataContext.SaveChangesAsync();
             }
             await ShowTodoList();
+        }
+
+        public async Task MarkTodoStatus(Todo todo)
+        {
+            dataContext ??= await TodoDataContextFactory.CreateDbContextAsync();
+            //Toggla todo post status
+                todo.Status = !todo.Status;
+                dataContext.Todos.Update(todo);
+                await dataContext.SaveChangesAsync();
+                await ShowTodoList();
+
+        
         }
 
 

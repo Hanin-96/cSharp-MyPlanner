@@ -119,6 +119,26 @@ label, input, select {
     display: flex;
     gap: 1.5rem;
 }
+
+.check-todo {
+    position: relative;
+    bottom: 9rem;
+    left: 36rem;
+    width: 45px;
+    height: 45px;
+    accent-color: mediumvioletred;
+    margin: 0;
+}
+
+.checkbox-form {
+    width: 25px;
+    height: 25px;
+    position: unset;
+}
+
+.checkbox-label {
+    margin: 0;
+}
 /*Media queries*/
 @media (max-width: 640.98px) {
     .btn-add-form {
