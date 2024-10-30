@@ -99,9 +99,9 @@ namespace MyPlanner.Components.Pages
             {
                 // Sortera efter prioritet och skriv ut todo posts
                 ReadTodoList = await dataContext.Todos
-                   .OrderBy(todo => todo.Priority)
-                   .ThenBy(todo => todo.Title)
                    .OrderBy(todo => todo.Status)
+                   .ThenBy(todo => todo.Priority)
+                   .ThenBy(todo => todo.Title)
                    .ToListAsync();
             }
 
@@ -182,8 +182,14 @@ namespace MyPlanner.Components.Pages
 
         public async Task MarkTodoStatus(Todo todo)
         {
+            dataContext ??= await TodoDataContextFactory.CreateDbContextAsync();
             //Toggla todo post status
-             todo.Status = !todo.Status;
+                todo.Status = !todo.Status;
+                dataContext.Todos.Update(todo);
+                await dataContext.SaveChangesAsync();
+                await ShowTodoList();
+
+        
         }
 
 

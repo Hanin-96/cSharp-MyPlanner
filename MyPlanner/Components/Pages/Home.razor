@@ -109,7 +109,7 @@
                                 <p>@todo.Category</p>
                                 <p>@todo.DueDate</p>
 
-                                <label style="pointer-events: none;"><input type="checkbox" name="check-todo" class="check-todo" @bind="@todo.Status"></label>
+                                <label><input type="checkbox" name="check-todo" class="check-todo" @onclick="() => MarkTodoStatus(todo)" @bind="@todo.Status"></label>
 
                                 <div class="btn-todo-post-wrap">
                                     <button name="button" type="button" class="btn btn-primary" @onclick="() => ShowEditTodoForm(todo)">Ändra</button>
@@ -149,8 +149,6 @@
                                 <p>
                                     <input id="DueDate" name="DueDate" type="datetime-local" class="form-control" @bind="@TodoToUpdate.DueDate">
                                 </p>
-                                <label class="checkbox-label">Markera som klar</label>
-                                <p><input type="checkbox" name="check-todo" class="check-todo checkbox-form" @onclick="() => MarkTodoStatus(todo)" @bind="@todo.Status" /></p>
 
                                 <div class="btn-todo-post-wrap">
                                     <button name="button" type="button" class="btn btn-primary" @onclick="@TodoUpdate">Spara</button>
