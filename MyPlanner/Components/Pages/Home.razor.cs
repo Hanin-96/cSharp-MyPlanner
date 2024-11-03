@@ -4,6 +4,7 @@ using MyPlanner.Data;
 
 namespace MyPlanner.Components.Pages
 {
+    //Home är återanvändbar komponent i blazor, därav arvet från ComponentBase
     public partial class Home : ComponentBase
     {
         private List<Todo>? readTodoList;
@@ -42,16 +43,19 @@ namespace MyPlanner.Components.Pages
         //Från klassen TodoDataContext, referens till databasanslutning
         private TodoDataContext? dataContext;
 
+        //Körs när sidan startas, en del av blazor livscykel komponent
         protected override async Task OnInitializedAsync()
         {
             ShowCreate = false;
             HasError = false;
+            //Hämtar lista på alla todo poster
             await ShowTodoList();
         }
 
         //Visa formulär
         public void ShowCreateForm()
         {
+            //Skapar ny Todo objekt
             NewTodo = new Todo();
             ShowCreate = true;
         }
@@ -65,13 +69,20 @@ namespace MyPlanner.Components.Pages
         //Metod - Skapa ny todo
         public async Task CreateNewTodo()
         {
+            //Skapar koppling till databasen
             dataContext ??= await TodoDataContextFactory.CreateDbContextAsync();
 
+            //Om formuläret är validerad ska ny todo post lagras i databasen
             if (IsFormValid(NewTodo))
             {
                 dataContext?.Todos.Add(NewTodo);
                 await dataContext?.SaveChangesAsync();
-                ReadTodoList = await dataContext.Todos.OrderBy(todo => todo.Priority).ToListAsync();
+                //Sorterar ordning
+                ReadTodoList = await dataContext.Todos
+                   .OrderBy(todo => todo.Status)
+                   .ThenBy(todo => todo.Priority)
+                   .ThenBy(todo => todo.Title)
+                   .ToListAsync();
                 ShowCreate = false;
                 //Reset error
                 HasError = false;
@@ -82,10 +93,10 @@ namespace MyPlanner.Components.Pages
             }
 
         }
-
+        //Metod- Formulär validering vid skapande och uppdatering av todo
         private bool IsFormValid(Todo todoToValidate)
         {
-            return todoToValidate is not null && todoToValidate.Priority != 0 && 
+            return todoToValidate is not null && todoToValidate.Priority != 0 &&
                 todoToValidate.Description is not null && todoToValidate.Description != "" &&
                 todoToValidate.Title is not null && todoToValidate.Title != "" && todoToValidate.Category != "";
         }
@@ -93,11 +104,13 @@ namespace MyPlanner.Components.Pages
         //extrahera och visa todo lista
         public async Task ShowTodoList()
         {
+            //Skapar koppling till databasen
             dataContext ??= await TodoDataContextFactory.CreateDbContextAsync();
 
+            //Om koppling finns
             if (dataContext is not null)
             {
-                // Sortera efter prioritet och skriv ut todo posts
+                // Sortera efter status, prioritet och titel och skriv ut todo posts
                 ReadTodoList = await dataContext.Todos
                    .OrderBy(todo => todo.Status)
                    .ThenBy(todo => todo.Priority)
@@ -110,10 +123,13 @@ namespace MyPlanner.Components.Pages
         //Metod - Sätta id på existerande todo
         public async Task ShowEditTodoForm(Todo readTodoList)
         {
+            //Skapar koppling till databasen
             dataContext ??= await TodoDataContextFactory.CreateDbContextAsync();
+            //Hämtar todo baserad på Id
             TodoToUpdate = dataContext.Todos.FirstOrDefault(x => x.Id == readTodoList.Id);
-            if(todoToUpdate is not null)
+            if (todoToUpdate is not null)
             {
+                //Om Id hittas sparas en backup ifall man ångrar ändring
                 backUpTodo = new Todo
                 {
                     Id = todoToUpdate.Id,
@@ -121,9 +137,11 @@ namespace MyPlanner.Components.Pages
                     Description = todoToUpdate.Description,
                     Priority = todoToUpdate.Priority,
                     Category = todoToUpdate.Category,
+                    DueDate = todoToUpdate.DueDate,
                     Status = todoToUpdate.Status
                 };
             }
+            //Sparar ner Id på den som ska uppdateras
             EditingId = readTodoList.Id;
             EditRecord = true;
         }
@@ -131,34 +149,38 @@ namespace MyPlanner.Components.Pages
         //Stänga edit mode
         public async Task CloseEditForm()
         {
-            if( backUpTodo is not null && todoToUpdate is not null)
+            //Ifall man ångrar ändringar, ska backupen skriva över ändringar
+            if (backUpTodo is not null && todoToUpdate is not null)
             {
                 todoToUpdate.Title = backUpTodo.Title;
                 todoToUpdate.Description = backUpTodo.Description;
                 todoToUpdate.Priority = backUpTodo.Priority;
                 todoToUpdate.Category = backUpTodo.Category;
+                todoToUpdate.DueDate = backUpTodo.DueDate;
                 todoToUpdate.Status = backUpTodo.Status;
             }
             EditRecord = false;
+            HasError = false;
         }
 
         //Metod - Uppdatera todo enligt id
         public async Task TodoUpdate()
         {
-
             HasError = false;
+            //Skapar koppling till databasen
             dataContext ??= await TodoDataContextFactory.CreateDbContextAsync();
 
             if (dataContext is not null && IsFormValid(TodoToUpdate))
             {
+                //Uppdatera ändrat todo
                 dataContext.Todos.Update(TodoToUpdate);
                 await dataContext.SaveChangesAsync();
+                //Hämtar och sortera listan
                 ReadTodoList = await dataContext.Todos
-                    .OrderBy(todo => todo.Priority)
-                    .ThenBy(todo => todo.Title)
-                    .OrderBy(todo => todo.Status)
-                    .ToListAsync();
-                //await dataContext.DisposeAsync();
+                   .OrderBy(todo => todo.Status)
+                   .ThenBy(todo => todo.Priority)
+                   .ThenBy(todo => todo.Title)
+                   .ToListAsync();
                 EditRecord = false;
             }
             else
@@ -169,12 +191,14 @@ namespace MyPlanner.Components.Pages
         }
 
         //Metod - Radera todo post
-        public async Task DeleteTodoPost(Todo readTodoList)
+        public async Task DeleteTodoPost(Todo todoPost)
         {
+            //Skapar koppling till databasen
             dataContext ??= await TodoDataContextFactory.CreateDbContextAsync();
-            if (dataContext is not null && readTodoList is not null)
+            if (dataContext is not null && todoPost is not null)
             {
-                dataContext.Todos.Remove(readTodoList);
+                //Radera specifik todo post
+                dataContext.Todos.Remove(todoPost);
                 await dataContext.SaveChangesAsync();
             }
             await ShowTodoList();
@@ -182,14 +206,15 @@ namespace MyPlanner.Components.Pages
 
         public async Task MarkTodoStatus(Todo todo)
         {
+            //Skapar koppling till databasen
             dataContext ??= await TodoDataContextFactory.CreateDbContextAsync();
             //Toggla todo post status
-                todo.Status = !todo.Status;
-                dataContext.Todos.Update(todo);
-                await dataContext.SaveChangesAsync();
-                await ShowTodoList();
-
-        
+            todo.Status = !todo.Status;
+            //Uppdaterar ändring
+            dataContext.Todos.Update(todo);
+            await dataContext.SaveChangesAsync();
+            //Hämtar sorterad lista
+            await ShowTodoList();
         }
 
 

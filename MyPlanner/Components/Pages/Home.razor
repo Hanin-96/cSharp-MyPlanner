@@ -3,6 +3,8 @@
 @using MyPlanner.Data
 
 <PageTitle>To Do List</PageTitle>
+<!--Databashantering, komma åt och modifiera databasen-->
+<!--Används i home.razor.cs-->
 @inject IDbContextFactory<TodoDataContext> TodoDataContextFactory;
 <div class="allcontent-wrapper">
 
@@ -59,7 +61,7 @@
 
             <div class="form-group row">
                 <div class="btn-form">
-                    <!--On-click på lägg till knapp, för att kalla på method-->
+                    <!--On-click på lägg till knapp/ångra, för att kalla på method-->
                     <button name="button" type="button" class="btn btn-primary" @onclick="CreateNewTodo">Lägg till</button>
                     <button name="cancel" type="button" class="btn btn-secondary" @onclick="CancelForm">Ångra</button>
                 </div>
@@ -84,7 +86,7 @@
         {
             <div class="table-responsive">
 
-
+                <!--För varje todo post skriv ut-->
                 @foreach (var todo in @ReadTodoList)
                     @if (!EditRecord)
                     {
@@ -102,14 +104,15 @@
                             {
                                 <p class="priority-number-notis" style="background-color: green;">@todo.Priority</p>
                             }
-
+                            <!--Ändra färg på todo post beroende på statusen-->
                             <article class="todo-article" style="@((todo.Status ? "color: grey; background-color: #e9e9e9; border: 2px solid grey;": ""))">
                                 <h2>@todo.Title</h2>
                                 <p>@todo.Description</p>
                                 <p>@todo.Category</p>
                                 <p>@todo.DueDate</p>
 
-                                <label><input type="checkbox" name="check-todo" class="check-todo" @onclick="() => MarkTodoStatus(todo)" @bind="@todo.Status"></label>
+                                <!--Markera todo post med onClick och bind status till variabel-->
+                                <input type="checkbox" name="check-todo" class="check-todo" @onclick="() => MarkTodoStatus(todo)" @bind="@todo.Status">
 
                                 <div class="btn-todo-post-wrap">
                                     <button name="button" type="button" class="btn btn-primary" @onclick="() => ShowEditTodoForm(todo)">Ändra</button>
@@ -124,11 +127,12 @@
                         if (@TodoToUpdate is not null && @TodoToUpdate.Id == @todo.Id)
                         {
                             <article class="todo-article">
-                                <label for="Title" class="col-4 form-label">Titel</label>
+                                <label for="Title" class="col-4 form-label label-change">Titel</label>
                                 <h2><input id="Title" name="Title" type="text" class="form-control" @bind="@TodoToUpdate.Title" /></h2>
-                                <label for="description" class="col-4 form-label">Beskrivning</label>
+                                <label for="description" class="col-4 form-label label-change">Beskrivning</label>
                                 <p><input id="Description" name="Description" type="text" class="form-control" @bind="@TodoToUpdate.Description" /></p>
                                 <p>
+                                    <label for="category" class="col-4 label-change">Kategori</label>
                                     <select @bind="@TodoToUpdate.Category">
                                         <option value="Arbete">Arbete</option>
                                         <option value="Hem">Hem</option>
@@ -139,6 +143,7 @@
                                     </select>
                                 </p>
                                 <p>
+                                    <label for="priority" class="col-4 label-change">Prioritet</label>
                                     <select @bind="@TodoToUpdate.Priority">
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -147,6 +152,7 @@
                                 </p>
 
                                 <p>
+                                    <label for="deadline" class="col-4 label-change">Deadline</label>
                                     <input id="DueDate" name="DueDate" type="datetime-local" class="form-control" @bind="@TodoToUpdate.DueDate">
                                 </p>
 

@@ -19,9 +19,18 @@ label, input, select {
 .form-label {
     margin-bottom: 0.5rem;
 }
+
+.label-change {
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.check-todo:hover {
+    cursor: pointer;
+}
 /*Article för varje todo*/
 .todo-article {
-    background-color: #ffffff;
+    background-color: #fff0f0;
     padding: 1rem;
     margin: 2rem 0 2rem 0;
     border-radius: 20px;
@@ -31,7 +40,7 @@ label, input, select {
 }
 
 .todo-form-wrapper {
-    background-color: #ffffff;
+    background-color: #fff0f0;
     padding: 1rem;
     margin: 2rem 0 2rem 0;
     border-radius: 20px;
@@ -63,6 +72,22 @@ label, input, select {
     font-size: 20px;
     color: white;
     font-weight: bold;
+}
+
+select {
+    padding: 0.4rem;
+    border: none;
+    background-color: mediumvioletred;
+    color: white;
+}
+
+input {
+    border: 1px solid mediumvioletred;
+}
+
+#DueDate {
+    max-width: min-content;
+    width: 100%;
 }
 /*btn styling*/
 .btn-primary {
@@ -122,12 +147,13 @@ label, input, select {
 
 .check-todo {
     position: relative;
-    bottom: 9rem;
-    left: 36rem;
-    width: 45px;
-    height: 45px;
+    bottom: 55%;
+    left: 92%;
+    width: 50px;
+    height: 50px;
     accent-color: mediumvioletred;
     margin: 0;
+    margin-left: -1rem;
 }
 
 .checkbox-form {
@@ -147,6 +173,7 @@ label, input, select {
         left: 0;
         border-radius: 0;
         margin-bottom: 0;
+        z-index: 30;
     }
 }
 
