@@ -79,11 +79,7 @@ namespace MyPlanner.Components.Pages
                 dataContext?.Todos.Add(NewTodo);
                 await dataContext?.SaveChangesAsync();
                 //Sorterar ordning
-                ReadTodoList = await dataContext.Todos
-                   .OrderBy(todo => todo.Status)
-                   .ThenBy(todo => todo.Priority)
-                   .ThenBy(todo => todo.Title)
-                   .ToListAsync();
+                await SortTodoList();
                 ShowCreate = false;
                 //Reset error
                 HasError = false;
@@ -94,6 +90,20 @@ namespace MyPlanner.Components.Pages
             }
 
         }
+
+        //Sortering method
+        private async Task SortTodoList()
+        {
+            if(dataContext is not null)
+            {
+                ReadTodoList = await dataContext.Todos
+                              .OrderBy(todo => todo.Status)
+                              .ThenBy(todo => todo.Priority)
+                              .ThenBy(todo => todo.Title)
+                              .ToListAsync();
+            }
+        }
+
         //Metod- Formulär validering vid skapande och uppdatering av todo
         private bool IsFormValid(Todo todoToValidate)
         {
@@ -112,11 +122,7 @@ namespace MyPlanner.Components.Pages
             if (dataContext is not null)
             {
                 // Sortera efter status, prioritet och titel och skriv ut todo posts
-                ReadTodoList = await dataContext.Todos
-                   .OrderBy(todo => todo.Status)
-                   .ThenBy(todo => todo.Priority)
-                   .ThenBy(todo => todo.Title)
-                   .ToListAsync();
+                await SortTodoList();
             }
 
         }
@@ -177,11 +183,7 @@ namespace MyPlanner.Components.Pages
                 dataContext.Todos.Update(TodoToUpdate);
                 await dataContext.SaveChangesAsync();
                 //Hämtar och sortera listan
-                ReadTodoList = await dataContext.Todos
-                   .OrderBy(todo => todo.Status)
-                   .ThenBy(todo => todo.Priority)
-                   .ThenBy(todo => todo.Title)
-                   .ToListAsync();
+                await SortTodoList();
                 EditRecord = false;
             }
             else
