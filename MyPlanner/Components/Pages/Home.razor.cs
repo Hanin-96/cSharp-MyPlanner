@@ -7,6 +7,7 @@ namespace MyPlanner.Components.Pages
     //Home är återanvändbar komponent i blazor, därav arvet från ComponentBase
     public partial class Home : ComponentBase
     {
+        //Privata variabler som hanteras med getters och setters
         private List<Todo>? readTodoList;
         private Todo? newTodo;
         private bool showCreate;

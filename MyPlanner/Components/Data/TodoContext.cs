@@ -2,10 +2,13 @@
 
 namespace MyPlanner.Data
 {
+    //Arv av DbContext klass som används för databaskoppling
     public class TodoDataContext : DbContext
     {
+        //get set för listan av todos i databasen
         public DbSet<Todo> Todos { get; set; }
 
+        //Konfigurationsegenskaper
         protected readonly IConfiguration Configuration;
 
         //Constructor
@@ -14,11 +17,14 @@ namespace MyPlanner.Data
             Configuration = configuration;
         }
 
+        //Konfigurerar typ av databas
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            //Entity framework core använder metod UseSqlite för att hämta TodoDB i appsettings.json
             optionsBuilder.UseSqlite(Configuration.GetConnectionString("TodoDB"));
         }
 
+        //Skapar upp modellen som kommer bygga upp tabellen Todos
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Todo>()
