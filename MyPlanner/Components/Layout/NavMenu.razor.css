@@ -10,7 +10,6 @@
 }
 
 img {
-    max-width: min-content;
     width: 100%;
     background-color: #ffffff;
     padding: 0.5rem;
