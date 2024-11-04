@@ -1,6 +1,6 @@
 # C# Projekt - MyPlanner
 
-## DT071G Programmering i c#.NET
+## DT071G Programmering i C#.NET
 Hanin Farhan - Webbutveckling Mittuniversitet
 ### MyPlanner - "Att göra" / To-do post# 
 Uppgift - Skapa ett To-do blazor projekt som är kopplad till SQLite:
