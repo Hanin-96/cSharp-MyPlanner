@@ -11,7 +11,7 @@ namespace MyPlanner.Data
         //Konfigurationsegenskaper
         protected readonly IConfiguration Configuration;
 
-        //Constructor
+        //Konstruktor
         public TodoDataContext(IConfiguration configuration)
         {
             Configuration = configuration;

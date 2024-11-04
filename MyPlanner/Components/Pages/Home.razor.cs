@@ -70,6 +70,8 @@ namespace MyPlanner.Components.Pages
         //Metod - Skapa ny todo
         public async Task CreateNewTodo()
         {
+            //Reset error
+            HasError = false;
             //Skapar koppling till databasen
             dataContext ??= await TodoDataContextFactory.CreateDbContextAsync();
 
