@@ -76,7 +76,7 @@ namespace MyPlanner.Components.Pages
             //Om formuläret är validerad ska ny todo post lagras i databasen
             if (IsFormValid(NewTodo))
             {
-                dataContext?.Todos.Add(NewTodo);
+                dataContext.Todos.Add(NewTodo);
                 await dataContext?.SaveChangesAsync();
                 //Sorterar ordning
                 await SortTodoList();
@@ -139,7 +139,6 @@ namespace MyPlanner.Components.Pages
                 //Om Id hittas sparas en backup ifall man ångrar ändring
                 backUpTodo = new Todo
                 {
-                    Id = todoToUpdate.Id,
                     Title = todoToUpdate.Title,
                     Description = todoToUpdate.Description,
                     Priority = todoToUpdate.Priority,
