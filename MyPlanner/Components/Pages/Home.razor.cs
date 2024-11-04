@@ -65,6 +65,8 @@ namespace MyPlanner.Components.Pages
         public void CancelForm()
         {
             ShowCreate = false;
+            //Reset error
+            HasError = false;
         }
 
         //Metod - Skapa ny todo
@@ -132,6 +134,7 @@ namespace MyPlanner.Components.Pages
         //Metod - Sätta id på existerande todo
         public async Task ShowEditTodoForm(Todo readTodoList)
         {
+            HasError = false;
             //Skapar koppling till databasen
             dataContext ??= await TodoDataContextFactory.CreateDbContextAsync();
             //Hämtar todo baserad på Id
